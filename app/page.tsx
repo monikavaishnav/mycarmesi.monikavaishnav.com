@@ -142,7 +142,6 @@ const highlightsData = [
 
 export default function Home() {
   const [activePost, setActivePost] = useState<(typeof posts)[0] | null>(null);
-  const [activeBtn, setActiveBtn] = useState<HTMLButtonElement | null>(null);
 
   const reelIcon = `<svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>`;
   const carouselIcon = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="7" y="7" width="14" height="14" rx="2.5"/><path d="M4 14V6a2 2 0 0 1 2-2h8"/></svg>`;
@@ -216,38 +215,6 @@ export default function Home() {
           pointer-events:none;
           white-space:nowrap;
           z-index:0;
-        }
-
-        .header{
-          text-align:center;
-          position:relative;
-          z-index:1;
-          margin-bottom:8px;
-        }
-        .kicker{
-          font-size:12px;
-          letter-spacing:3px;
-          color:var(--gold);
-          font-weight:600;
-          margin-bottom:10px;
-        }
-        .hero-line{
-          font-family:var(--font-display);
-          font-size:clamp(34px, 6vw, 58px);
-          line-height:0.95;
-          letter-spacing:0.5px;
-          margin:0 0 14px;
-        }
-        .hero-line em{
-          font-style:normal;
-          color:var(--crimson);
-        }
-        .sub{
-          font-size:14.5px;
-          color:#C9B4BB;
-          max-width:460px;
-          margin:0 auto;
-          line-height:1.55;
         }
 
         .layout{
@@ -547,9 +514,8 @@ export default function Home() {
 
       <div className="watermark">CARMESI</div>
 
-      <div className="stage" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
-
-      <div className="layout">
+      <div className="stage">
+        <div className="layout">
           <div className="phone-wrap">
             <div className="phone">
               <div className="screen">

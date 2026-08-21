@@ -10,9 +10,9 @@
   --brand-black: #111111;
   --muted: #8b7378;
   --line: #ece4e6;
-  --font-display: "Bebas Neue", Impact, sans-serif;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
-  --font-note: "Caveat", cursive;
+  --font-display: var(--font-bebas-neue), Impact, sans-serif;
+  --font-body: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-note: var(--font-caveat), cursive;
 }
 
 * {
@@ -37,4 +37,40 @@ body {
   color: var(--paper);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── standalone site bar (links back to the main portfolio) ── */
+.siteBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 4rem;
+  background: #1a1a1a;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.siteBarBack {
+  color: rgba(255, 255, 255, 0.55);
+  transition: color 0.2s;
+}
+.siteBarBack:hover {
+  color: #fff;
+}
+
+.siteBarMark {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+@media (max-width: 900px) {
+  .siteBar {
+    padding: 0.9rem 1.5rem;
+  }
 }

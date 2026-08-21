@@ -1,5 +1,27 @@
 import type { Metadata } from "next";
+import { Bebas_Neue, Caveat, Inter } from "next/font/google";
 import "./globals.css";
+
+const bebasNeue = Bebas_Neue({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-bebas-neue",
+  display: "swap",
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["500", "700"],
+  variable: "--font-caveat",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Not Her Job — Live on the Grid | Carmesi",
@@ -14,20 +36,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body>{children}</body>
+    <html lang="en" className={`${bebasNeue.variable} ${caveat.variable} ${inter.variable}`}>
+      <body>
+        <header className="siteBar">
+          <a href="https://monikavaishnav.com/" className="siteBarBack">← monikavaishnav.com</a>
+          <span className="siteBarMark">Carmesi — Not Her Job</span>
+        </header>
+        {children}
+      </body>
     </html>
   );
 }
