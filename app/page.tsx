@@ -647,17 +647,12 @@ export default function Home() {
                           onClick={() => setActivePost(p)}
                           aria-label={p.lines.join(" ") + " — open post"}
                         >
-                          <span className="icon-corner">
-                            {p.type === "reel"
-                              ? React.createElement("div", {
-                                  dangerouslySetInnerHTML: { __html: reelIcon },
-                                })
-                              : p.type === "carousel"
-                              ? React.createElement("div", {
-                                  dangerouslySetInnerHTML: { __html: carouselIcon },
-                                })
-                              : null}
-                          </span>
+                          <span
+                            className="icon-corner"
+                            dangerouslySetInnerHTML={{
+                              __html: p.type === "reel" ? reelIcon : p.type === "carousel" ? carouselIcon : ""
+                            }}
+                          />
                           <span className="lines">
                             {p.lines.map((l, j) => (
                               <div key={j}>{l}</div>
@@ -708,17 +703,12 @@ export default function Home() {
                     </div>
 
                     <div className={`post-art v-${activePost.variant} ${activePost.type === "reel" ? "is-reel" : "is-post"}`}>
-                      <span className="icon-corner">
-                        {activePost.type === "reel"
-                          ? React.createElement("div", {
-                              dangerouslySetInnerHTML: { __html: reelIcon },
-                            })
-                          : activePost.type === "carousel"
-                          ? React.createElement("div", {
-                              dangerouslySetInnerHTML: { __html: carouselIcon },
-                            })
-                          : null}
-                      </span>
+                      <span
+                        className="icon-corner"
+                        dangerouslySetInnerHTML={{
+                          __html: activePost.type === "reel" ? reelIcon : activePost.type === "carousel" ? carouselIcon : ""
+                        }}
+                      />
                       <span className="lines">
                         {activePost.lines.map((l, i) => (
                           <div key={i}>{l}</div>
