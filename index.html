@@ -1,0 +1,334 @@
+<!DOCTYPE html><html lang="en" class="bebas_neue_6aff30cd-module__odDrFq__variable caveat_15793778-module__Q0FeyG__variable inter_1ec0685a-module__ODW2ua__variable"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" href="/_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2" as="font" crossorigin="" type="font/woff2"/><link rel="preload" href="/_next/static/media/a85fe84266768609-s.p.0h6ig86gwutp4.woff2" as="font" crossorigin="" type="font/woff2"/><link rel="preload" href="/_next/static/media/fabcf92ba1ccea36-s.p.1w_qz2ahumqmz.woff2" as="font" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/chunks/2sc33hrz174gt.css" data-precedence="next"/><link rel="preload" as="script" fetchPriority="low" href="/_next/static/chunks/1jq4o6yq14o4c.js"/><script src="/_next/static/chunks/2ckqm4grawju5.js" async=""></script><script src="/_next/static/chunks/3rxl-jt3pdxgx.js" async=""></script><script src="/_next/static/chunks/turbopack-0d8oeaxqa4-xi.js" async=""></script><script src="/_next/static/chunks/158myu8e_yme3.js" async=""></script><script src="/_next/static/chunks/01t7637uv8g88.js" async=""></script><meta name="next-size-adjust" content=""/><title>Not Her Job — Live on the Grid | Carmesi</title><meta name="description" content="A takeover week on @mycarmesi, imagined post by post. Tap any tile to see the strategist&#x27;s note behind it."/><meta property="og:title" content="Not Her Job — Live on the Grid | Carmesi"/><meta property="og:description" content="A takeover week on @mycarmesi, imagined post by post. Tap any tile to see the strategist&#x27;s note behind it."/><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Not Her Job — Live on the Grid | Carmesi"/><meta name="twitter:description" content="A takeover week on @mycarmesi, imagined post by post. Tap any tile to see the strategist&#x27;s note behind it."/><script src="/_next/static/chunks/0cz1d0mv5g_q7.js" noModule=""></script></head><body><div hidden=""><!--$--><!--/$--></div><header class="siteBar"><a href="https://monikavaishnav.com/" class="siteBarBack">← monikavaishnav.com</a><span class="siteBarMark">Carmesi — Not Her Job</span></header><style>
+        :root{
+          --bg:#1B0A0F;
+          --bg-2:#240D14;
+          --paper:#FFFFFF;
+          --ink:#221114;
+          --crimson:#C81E3A;
+          --crimson-deep:#8C1029;
+          --plum:#4A1622;
+          --gold:#E8A33D;
+          --brand-black:#111111;
+          --muted:#8B7378;
+          --line:#ECE4E6;
+          --font-display:'Bebas Neue', Impact, sans-serif;
+          --font-body:'Inter', system-ui, -apple-system, sans-serif;
+          --font-note:'Caveat', cursive;
+        }
+
+        .stage{
+          max-width:1400px;
+          margin:0 auto;
+          padding:40px 20px;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+        }
+
+        .watermark{
+          position:fixed;
+          top:50%; left:50%;
+          transform:translate(-50%,-50%) rotate(-8deg);
+          font-family:var(--font-display);
+          font-size:min(22vw, 320px);
+          color:rgba(255,255,255,0.025);
+          letter-spacing:6px;
+          pointer-events:none;
+          white-space:nowrap;
+          z-index:0;
+        }
+
+        .layout{
+          display:flex;
+          gap:44px;
+          align-items:flex-start;
+          justify-content:center;
+          width:100%;
+          margin-top:0;
+          position:relative;
+          z-index:1;
+        }
+
+        /* ---------- DEVICE CARD ---------- */
+        .phone-wrap{flex-shrink:0;}
+        .phone{
+          width:600px;
+          border-radius:22px;
+          box-shadow:0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
+          overflow:hidden;
+        }
+        .screen{
+          background:var(--paper);
+          color:var(--ink);
+          padding-top:14px;
+        }
+
+        .handle-row{
+          display:flex; align-items:center; gap:5px;
+          padding:2px 16px 0;
+          font-weight:700; font-size:15px;
+        }
+        .verified{width:14px;height:14px;flex-shrink:0;}
+        .lock-icon{width:11px;height:11px;opacity:.55;margin-left:2px;}
+
+        .profile-row{
+          display:flex; align-items:center; gap:18px;
+          padding:12px 16px 4px;
+        }
+        .avatar{
+          width:74px; height:74px; border-radius:50%;
+          background:linear-gradient(135deg,var(--crimson),var(--brand-black) 75%);
+          display:flex; align-items:center; justify-content:center;
+          font-family:var(--font-display);
+          font-size:30px; color:var(--paper);
+          flex-shrink:0;
+          box-shadow:inset 0 0 0 3px #fff, 0 0 0 1px var(--line);
+        }
+        .stats{display:flex; flex:1; justify-content:space-around;}
+        .stat{text-align:center;}
+        .stat b{display:block; font-size:16px; font-weight:700;}
+        .stat span{font-size:11px; color:var(--muted);}
+
+        .bio{
+          padding:10px 16px 0;
+          font-size:12.5px;
+          line-height:1.6;
+          white-space:pre-line;
+        }
+        .bio strong{font-weight:700;}
+        .bio .tag{color:var(--crimson); font-weight:600;}
+
+        .buttons-row{display:flex; gap:8px; padding:12px 16px 14px;}
+        .btn{
+          flex:1; text-align:center; padding:7px 0; border-radius:8px;
+          font-size:12.5px; font-weight:600; border:none;
+        }
+        .btn.primary{background:var(--crimson); color:#fff;}
+        .btn.secondary{background:#F1EEEF; color:var(--ink);}
+
+        .highlights{
+          display:flex; gap:16px; padding:2px 16px 16px;
+          overflow-x:auto;
+        }
+        .highlight{
+          display:flex; flex-direction:column; align-items:center; gap:5px;
+          flex-shrink:0;
+        }
+        .h-circle{
+          width:54px; height:54px; border-radius:50%;
+          border:1.5px solid var(--line);
+          display:flex; align-items:center; justify-content:center;
+          font-size:20px; background:#FAFAFA;
+        }
+        .highlight span{font-size:9.5px; color:var(--muted); text-align:center; max-width:56px;}
+
+        .tabs{display:flex; border-top:1px solid var(--line);}
+        .tab{
+          flex:1; text-align:center; padding:11px 0; opacity:.35;
+        }
+        .tab.active{opacity:1; border-top:1.4px solid var(--ink); margin-top:-1px;}
+        .tab svg{width:19px; height:19px; display:block; margin:0 auto;}
+
+        .grid{
+          display:grid;
+          grid-template-columns:repeat(3,1fr);
+          gap:2px;
+          background:var(--line);
+        }
+        .tile{
+          aspect-ratio:1;
+          position:relative;
+          border:0; margin:0; cursor:pointer;
+          padding:11px;
+          display:flex; flex-direction:column; justify-content:flex-end;
+          overflow:hidden;
+          font-family:var(--font-display);
+          text-align:left;
+          -webkit-tap-highlight-color:transparent;
+          transition:transform .18s ease, filter .18s ease;
+          opacity:0;
+          animation:tileIn .5s ease forwards;
+        }
+        .tile:hover{transform:scale(0.96);}
+        .tile:focus-visible{outline:3px solid var(--gold); outline-offset:-3px; z-index:2;}
+        .tile.active{outline:3px solid var(--gold); outline-offset:-3px; z-index:2;}
+        .tile .lines div{font-size:clamp(13px,4vw,18px); line-height:0.92; letter-spacing:0.3px;}
+        .tile .icon-corner{position:absolute; top:8px; right:8px; opacity:.92;}
+        .tile .drop-mark{position:absolute; bottom:9px; right:9px; opacity:.9;}
+
+        .v-a{background:var(--crimson); color:#fff;}
+        .v-b{background:var(--brand-black); color:var(--crimson);}
+        .v-c{background:#fff; color:var(--crimson); box-shadow:inset 0 0 0 2px var(--crimson);}
+        .v-d{background:var(--brand-black); color:#fff; box-shadow:inset 0 0 0 2px var(--crimson);}
+
+        @keyframes tileIn{
+          from{opacity:0; transform:translateY(8px) scale(0.98);}
+          to{opacity:1; transform:translateY(0) scale(1);}
+        }
+        .tile:nth-child(1){animation-delay:.05s;}
+        .tile:nth-child(2){animation-delay:.11s;}
+        .tile:nth-child(3){animation-delay:.17s;}
+        .tile:nth-child(4){animation-delay:.23s;}
+        .tile:nth-child(5){animation-delay:.29s;}
+        .tile:nth-child(6){animation-delay:.35s;}
+        .tile:nth-child(7){animation-delay:.41s;}
+        .tile:nth-child(8){animation-delay:.47s;}
+        .tile:nth-child(9){animation-delay:.53s;}
+
+        /* ---------- NOTE PANEL ---------- */
+        .note-panel{
+          width:320px;
+          flex-shrink:0;
+          position:sticky;
+          top:40px;
+        }
+        .note-empty{
+          font-family:var(--font-note);
+          font-size:21px;
+          color:#E9D8DC;
+          opacity:.8;
+          text-align:center;
+          padding:70px 18px 0;
+          line-height:1.4;
+        }
+        .note-content{
+          background:var(--paper);
+          color:var(--ink);
+          border-radius:3px;
+          padding:22px 22px 24px;
+          position:relative;
+          transform:rotate(-1.4deg);
+          box-shadow:0 25px 50px rgba(0,0,0,0.45);
+        }
+        .note-content::before{
+          content:"";
+          position:absolute;
+          top:-12px; left:50%; transform:translateX(-50%) rotate(-3deg);
+          width:64px; height:22px;
+          background:rgba(232,163,61,0.55);
+          box-shadow:0 2px 4px rgba(0,0,0,0.15);
+        }
+        .note-close{
+          position:absolute; top:10px; right:12px;
+          background:none; border:none; font-size:18px;
+          color:var(--muted); cursor:pointer; line-height:1;
+          padding:4px;
+        }
+        .note-label{font-size:10.5px; letter-spacing:1.6px; color:var(--gold-deep,#B87A1B); font-weight:700;}
+        .note-text{
+          font-family:var(--font-note);
+          font-size:20px; line-height:1.35;
+          color:var(--crimson-deep);
+          margin-top:6px;
+        }
+
+        .backdrop{
+          display:none;
+          position:fixed; inset:0;
+          background:rgba(10,4,6,0.6);
+          z-index:40;
+          opacity:0; pointer-events:none;
+          transition:opacity .25s ease;
+        }
+
+        /* ---------- POST DETAIL VIEW ---------- */
+        #postView[hidden], #profileView[hidden]{display:none;}
+        #postView{animation:viewIn .35s ease;}
+        @keyframes viewIn{ from{opacity:0; transform:translateX(10px);} to{opacity:1; transform:translateX(0);} }
+
+        .post-header{display:flex; align-items:center; gap:10px; padding:14px 14px 8px;}
+        .back-btn{background:none; border:none; padding:4px; cursor:pointer; color:var(--ink); display:flex;}
+        .post-header .handle-mini{font-weight:700; font-size:13.5px; flex:1; display:flex; align-items:center; gap:5px;}
+        .post-header .handle-mini svg{width:12px;height:12px;}
+        .post-header .more{opacity:.4; font-size:18px; letter-spacing:1px;}
+
+        .post-art{
+          width:100%; position:relative;
+          font-family:var(--font-display);
+          display:flex; align-items:flex-end;
+          padding:18px; overflow:hidden;
+        }
+        .post-art.is-post{aspect-ratio:1/1;}
+        .post-art.is-reel{aspect-ratio:4/5;}
+        .post-art .lines div{font-size:clamp(22px,7vw,32px); line-height:0.92;}
+        .post-art .icon-corner{position:absolute; top:14px; right:14px;}
+        .post-art .drop-mark{position:absolute; bottom:14px; right:14px; opacity:.9;}
+
+        .post-actions{display:flex; align-items:center; gap:14px; padding:12px 16px 2px; color:var(--ink);}
+        .post-actions svg{width:21px; height:21px;}
+        .post-actions .spacer{flex:1;}
+
+        .post-likes{padding:8px 16px 0; font-size:12.5px; font-weight:700;}
+        .post-caption{padding:5px 16px 4px; font-size:12.5px; line-height:1.5;}
+        .post-caption b{font-weight:700; margin-right:5px;}
+
+        .post-comments{padding:6px 16px 20px; min-height:36px;}
+        .comment{
+          display:flex; gap:9px; padding:7px 0; align-items:flex-start;
+          opacity:0; transform:translateY(6px);
+          animation:commentIn .4s ease forwards;
+        }
+        .comment.reply{padding-left:32px;}
+        .c-avatar{
+          width:25px; height:25px; border-radius:50%; flex-shrink:0;
+          display:flex; align-items:center; justify-content:center;
+          font-size:10px; font-weight:700; color:#fff;
+        }
+        .c-body{flex:1; font-size:12.5px; line-height:1.45; padding-top:1px;}
+        .c-body b{font-weight:700; margin-right:5px;}
+        .comment.official{background:rgba(200,30,58,0.05); margin:2px -16px; padding:8px 16px; border-radius:8px;}
+        .comment.official .c-body b{color:var(--crimson);}
+        .comment.official .c-body b::after{content:" ✓"; font-size:9px; color:var(--crimson);}
+        .c-heart{opacity:.3; flex-shrink:0; margin-top:3px;}
+        @keyframes commentIn{ to{opacity:1; transform:translateY(0);} }
+
+        .typing-row{
+          display:flex; gap:9px; padding:7px 0; align-items:center;
+          opacity:0; animation:commentIn .3s ease forwards;
+        }
+        .typing-dots{display:flex; gap:3px; background:#F1EEEF; padding:9px 11px; border-radius:14px;}
+        .typing-dots span{width:5px; height:5px; border-radius:50%; background:var(--muted); display:block; animation:blink 1.1s infinite;}
+        .typing-dots span:nth-child(2){animation-delay:.15s;}
+        .typing-dots span:nth-child(3){animation-delay:.3s;}
+        @keyframes blink{0%,80%,100%{opacity:.25;} 40%{opacity:1;}}
+
+        .note-type-pill{
+          display:inline-block; font-size:9.5px; letter-spacing:1px; font-weight:700;
+          color:#fff; background:var(--crimson); padding:3px 9px; border-radius:20px;
+          margin-bottom:12px; text-transform:uppercase;
+        }
+
+        @media (prefers-reduced-motion: reduce){
+          #postView{animation:none;}
+          .comment, .typing-row{animation:none; opacity:1; transform:none;}
+        }
+
+        @media (max-width:900px){
+          .layout{flex-direction:column; align-items:center; gap:0;}
+          .note-panel{
+            position:fixed; left:0; right:0; bottom:0; width:auto;
+            z-index:50; padding:0 14px 14px;
+            transform:translateY(110%);
+            transition:transform .35s cubic-bezier(.32,.72,0,1);
+          }
+          .note-panel.open{transform:translateY(0);}
+          .note-empty{display:none;}
+          .note-content{
+            border-radius:18px 18px 4px 4px;
+            transform:none;
+            max-height:65vh; overflow-y:auto;
+            box-shadow:0 -10px 40px rgba(0,0,0,0.5);
+          }
+          .note-content::before{display:none;}
+          .backdrop{display:block;}
+          .backdrop.show{opacity:1; pointer-events:auto;}
+        }
+        @media (min-width:901px){
+          .backdrop{display:none !important;}
+        }
+
+        @media (prefers-reduced-motion: reduce){
+          .tile{animation:none; opacity:1;}
+          .note-panel, .tile, .backdrop{transition:none;}
+        }
+      </style><div class="watermark">CARMESI</div><div class="stage"><div class="layout"><div class="phone-wrap"><div class="phone"><div class="screen"><div id="profileView"><div class="handle-row">@mycarmesi<svg class="verified" viewBox="0 0 24 24"><path fill="#4FA8E0" d="M12 2l2.2 2 3-.4.9 2.9 2.7 1.3-.8 3 1.4 2.7-2.3 2 .4 2.9-3 .5-1.6 2.6-2.7-1.1-2.7 1.1-1.6-2.6-3-.5.4-2.9-2.3-2 1.4-2.7-.8-3 2.7-1.3.9-2.9 3 .4z"></path><path fill="#fff" d="M9.7 12.4l-1.7-1.7-1.1 1.1 2.8 2.8 5-5-1.1-1.1z"></path></svg></div><div class="profile-row"><div class="avatar">C</div><div class="stats"><div class="stat"><b>1,204</b><span>Posts</span></div><div class="stat"><b>507K</b><span>Followers</span></div><div class="stat"><b>61</b><span>Following</span></div></div></div><div class="bio"><strong>Carmesi</strong><br/>🩸 Rewriting period talk<br/>👨 This week: teaching the men too<br/>📍 India <span class="tag">#NotHerJob</span></div><div class="buttons-row"><button class="btn secondary">Following</button><button class="btn secondary">Message</button></div><div class="highlights"><div class="highlight"><div class="h-circle">🔴</div><span>Not Her Job</span></div><div class="highlight"><div class="h-circle">🛍️</div><span>The Aisle</span></div><div class="highlight"><div class="h-circle">💬</div><span>Group Chat</span></div><div class="highlight"><div class="h-circle">❓</div><span>FAQs</span></div><div class="highlight"><div class="h-circle">🎀</div><span>Rakhi</span></div></div><div class="tabs"><div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></div><div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7.5-4.6-10-9.3C.5 7.8 3 4 7 4c2 0 3.6 1 5 2.8C13.4 5 15 4 17 4c4 0 6.5 3.8 5 7.7C19.5 16.4 12 21 12 21z"></path></svg></div></div><div class="grid"><button class="tile v-a" aria-label="NOT HER JOB — open post"><span class="icon-corner"></span><span class="lines"><div>NOT</div><div>HER</div><div>JOB</div></span><div><svg class="drop-mark" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C12 2 5 12 5 16a7 7 0 0 0 14 0c0-4-7-14-7-14z"/></svg></div></button><button class="tile v-b" aria-label="THE AISLE — open post"><span class="icon-corner"><svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></span><span class="lines"><div>THE</div><div>AISLE</div></span><div><svg class="drop-mark" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C12 2 5 12 5 16a7 7 0 0 0 14 0c0-4-7-14-7-14z"/></svg></div></button><button class="tile v-c" aria-label="GROUP CHAT — open post"><span class="icon-corner"><svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></span><span class="lines"><div>GROUP</div><div>CHAT</div></span><div><svg class="drop-mark" width="14" height="14" viewBox="0 0 24 24" fill="var(--crimson)"><path d="M12 2C12 2 5 12 5 16a7 7 0 0 0 14 0c0-4-7-14-7-14z"/></svg></div></button><button class="tile v-a" aria-label="TAG HIM — open post"><span class="icon-corner"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="7" y="7" width="14" height="14" rx="2.5"/><path d="M4 14V6a2 2 0 0 1 2-2h8"/></svg></span><span class="lines"><div>TAG</div><div>HIM</div></span><div><svg class="drop-mark" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C12 2 5 12 5 16a7 7 0 0 0 14 0c0-4-7-14-7-14z"/></svg></div></button><button class="tile v-d" aria-label="EXPLAIN IT TO ME — open post"><span class="icon-corner"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="7" y="7" width="14" height="14" rx="2.5"/><path d="M4 14V6a2 2 0 0 1 2-2h8"/></svg></span><span class="lines"><div>EXPLAIN</div><div>IT TO</div><div>ME</div></span><div><svg class="drop-mark" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C12 2 5 12 5 16a7 7 0 0 0 14 0c0-4-7-14-7-14z"/></svg></div></button><button class="tile v-b" aria-label="SCAN. LEARN. — open post"><span class="icon-corner"></span><span class="lines"><div>SCAN.</div><div>LEARN.</div></span><div><svg class="drop-mark" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C12 2 5 12 5 16a7 7 0 0 0 14 0c0-4-7-14-7-14z"/></svg></div></button><button class="tile v-c" aria-label="TIE ONE THAT COUNTS — open post"><span class="icon-corner"></span><span class="lines"><div>TIE ONE</div><div>THAT</div><div>COUNTS</div></span><div><svg class="drop-mark" width="14" height="14" viewBox="0 0 24 24" fill="var(--crimson)"><path d="M12 2C12 2 5 12 5 16a7 7 0 0 0 14 0c0-4-7-14-7-14z"/></svg></div></button><button class="tile v-a" aria-label="NOT OVER IT — open post"><span class="icon-corner"></span><span class="lines"><div>NOT</div><div>OVER</div><div>IT</div></span><div><svg class="drop-mark" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C12 2 5 12 5 16a7 7 0 0 0 14 0c0-4-7-14-7-14z"/></svg></div></button><button class="tile v-d" aria-label="SOMETHING&#x27;S CHANGING — open post"><span class="icon-corner"></span><span class="lines"><div>SOMETHING&#x27;S</div><div>CHANGING</div></span><div><svg class="drop-mark" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C12 2 5 12 5 16a7 7 0 0 0 14 0c0-4-7-14-7-14z"/></svg></div></button></div></div></div></div></div><aside class="note-panel"><div class="note-empty">☞ tap a post<br/>and watch it<br/>go live</div></aside></div></div><div class="backdrop"></div><!--$--><!--/$--><script src="/_next/static/chunks/1jq4o6yq14o4c.js" id="_R_" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[39756,[\"/_next/static/chunks/158myu8e_yme3.js\"],\"default\"]\n3:I[37457,[\"/_next/static/chunks/158myu8e_yme3.js\"],\"default\"]\n4:I[47257,[\"/_next/static/chunks/158myu8e_yme3.js\"],\"ClientPageRoot\"]\n5:I[31713,[\"/_next/static/chunks/158myu8e_yme3.js\",\"/_next/static/chunks/01t7637uv8g88.js\"],\"default\"]\n8:I[97367,[\"/_next/static/chunks/158myu8e_yme3.js\"],\"OutletBoundary\"]\n9:\"$Sreact.suspense\"\nb:I[97367,[\"/_next/static/chunks/158myu8e_yme3.js\"],\"ViewportBoundary\"]\nd:I[97367,[\"/_next/static/chunks/158myu8e_yme3.js\"],\"MetadataBoundary\"]\nf:I[68027,[\"/_next/static/chunks/158myu8e_yme3.js\"],\"default\",1]\n:HL[\"/_next/static/chunks/2sc33hrz174gt.css\",\"style\"]\n:HL[\"/_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n:HL[\"/_next/static/media/a85fe84266768609-s.p.0h6ig86gwutp4.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n:HL[\"/_next/static/media/fabcf92ba1ccea36-s.p.1w_qz2ahumqmz.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n"])</script><script>self.__next_f.push([1,"0:{\"P\":null,\"c\":[\"\",\"\"],\"q\":\"\",\"i\":false,\"f\":[[[\"\",{\"children\":[\"__PAGE__\",{}]},\"$undefined\",\"$undefined\",16],[[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/2sc33hrz174gt.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}],[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/158myu8e_yme3.js\",\"async\":true,\"nonce\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"en\",\"className\":\"bebas_neue_6aff30cd-module__odDrFq__variable caveat_15793778-module__Q0FeyG__variable inter_1ec0685a-module__ODW2ua__variable\",\"children\":[\"$\",\"body\",null,{\"children\":[[\"$\",\"header\",null,{\"className\":\"siteBar\",\"children\":[[\"$\",\"a\",null,{\"href\":\"https://monikavaishnav.com/\",\"className\":\"siteBarBack\",\"children\":\"← monikavaishnav.com\"}],[\"$\",\"span\",null,{\"className\":\"siteBarMark\",\"children\":\"Carmesi — Not Her Job\"}]]}],[\"$\",\"$L2\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L3\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]]}]}]]}],{\"children\":[[\"$\",\"$1\",\"c\",{\"children\":[[\"$\",\"$L4\",null,{\"Component\":\"$5\",\"serverProvidedParams\":{\"searchParams\":{},\"params\":{},\"promises\":[\"$@6\",\"$@7\"]}}],[[\"$\",\"script\",\"script-0\",{\"src\":\"/_next/static/chunks/01t7637uv8g88.js\",\"async\":true,\"nonce\":\"$undefined\"}]],[\"$\",\"$L8\",null,{\"children\":[\"$\",\"$9\",null,{\"name\":\"Next.MetadataOutlet\",\"children\":\"$@a\"}]}]]}],{},null,false,null]},null,false,null],[\"$\",\"$1\",\"h\",{\"children\":[null,[\"$\",\"$Lb\",null,{\"children\":\"$Lc\"}],[\"$\",\"div\",null,{\"hidden\":true,\"children\":[\"$\",\"$Ld\",null,{\"children\":[\"$\",\"$9\",null,{\"name\":\"Next.Metadata\",\"children\":\"$Le\"}]}]}],[\"$\",\"meta\",null,{\"name\":\"next-size-adjust\",\"content\":\"\"}]]}],false]],\"m\":\"$undefined\",\"G\":[\"$f\",[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/chunks/2sc33hrz174gt.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}]]],\"S\":true,\"h\":null,\"s\":\"$undefined\",\"l\":\"$undefined\",\"p\":\"$undefined\",\"d\":\"$undefined\",\"b\":\"6xsl1Gar-K90om-JwBrXV\"}\n"])</script><script>self.__next_f.push([1,"6:{}\n7:\"$0:f:0:1:1:children:0:props:children:0:props:serverProvidedParams:params\"\n"])</script><script>self.__next_f.push([1,"c:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}]]\n"])</script><script>self.__next_f.push([1,"a:null\ne:[[\"$\",\"title\",\"0\",{\"children\":\"Not Her Job — Live on the Grid | Carmesi\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"A takeover week on @mycarmesi, imagined post by post. Tap any tile to see the strategist's note behind it.\"}],[\"$\",\"meta\",\"2\",{\"property\":\"og:title\",\"content\":\"Not Her Job — Live on the Grid | Carmesi\"}],[\"$\",\"meta\",\"3\",{\"property\":\"og:description\",\"content\":\"A takeover week on @mycarmesi, imagined post by post. Tap any tile to see the strategist's note behind it.\"}],[\"$\",\"meta\",\"4\",{\"name\":\"twitter:card\",\"content\":\"summary\"}],[\"$\",\"meta\",\"5\",{\"name\":\"twitter:title\",\"content\":\"Not Her Job — Live on the Grid | Carmesi\"}],[\"$\",\"meta\",\"6\",{\"name\":\"twitter:description\",\"content\":\"A takeover week on @mycarmesi, imagined post by post. Tap any tile to see the strategist's note behind it.\"}]]\n"])</script></body></html>
