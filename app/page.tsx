@@ -197,9 +197,9 @@ export default function Home() {
         }
 
         .stage{
-          max-width:1180px;
+          max-width:1400px;
           margin:0 auto;
-          padding:56px 20px 80px;
+          padding:40px 20px;
           display:flex;
           flex-direction:column;
           align-items:center;
@@ -256,7 +256,7 @@ export default function Home() {
           align-items:flex-start;
           justify-content:center;
           width:100%;
-          margin-top:48px;
+          margin-top:0;
           position:relative;
           z-index:1;
         }
@@ -264,7 +264,7 @@ export default function Home() {
         /* ---------- DEVICE CARD ---------- */
         .phone-wrap{flex-shrink:0;}
         .phone{
-          width:352px;
+          width:600px;
           border-radius:22px;
           box-shadow:0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
           overflow:hidden;
@@ -389,10 +389,10 @@ export default function Home() {
 
         /* ---------- NOTE PANEL ---------- */
         .note-panel{
-          width:300px;
+          width:320px;
           flex-shrink:0;
           position:sticky;
-          top:56px;
+          top:40px;
         }
         .note-empty{
           font-family:var(--font-note);
@@ -547,21 +547,9 @@ export default function Home() {
 
       <div className="watermark">CARMESI</div>
 
-      <div className="stage">
-        <div className="header">
-          <div className="kicker">CARMESI × NOT HER JOB</div>
-          <h1 className="hero-line">
-            If this campaign
-            <br />
-            went live, here's <em>the grid.</em>
-          </h1>
-          <p className="sub">
-            A takeover week on @mycarmesi, imagined post by post. Tap any tile to see the
-            strategist's note behind it.
-          </p>
-        </div>
+      <div className="stage" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
 
-        <div className="layout">
+      <div className="layout">
           <div className="phone-wrap">
             <div className="phone">
               <div className="screen">
@@ -812,7 +800,7 @@ export default function Home() {
               </div>
             )}
           </aside>
-        </div>
+      </div>
       </div>
 
       <div className="backdrop" onClick={() => setActivePost(null)} />
