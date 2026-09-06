@@ -2,11 +2,31 @@
 
 import { useEffect, useState } from "react";
 
-const posts = [
+type Comment = { u: string; t: string; reply?: boolean };
+
+type Post = {
+  type: string;
+  variant: string;
+  lines: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  format?: any;
+  caption: string;
+  likes: string;
+  note: string;
+  comments: Comment[];
+  official?: string;
+};
+
+const posts: Post[] = [
   {
     type: "post",
     variant: "a",
     lines: ["NOT", "HER", "JOB"],
+    format: {
+      type: "strike",
+      struck: ["HER JOB", "HER JOB"],
+      final: "OUR JOB",
+    },
     caption:
       "Some things shouldn't be a woman's job alone. Starting today, we're talking to someone new. 🧵",
     likes: "24.8K",
@@ -22,6 +42,12 @@ const posts = [
     type: "reel",
     variant: "b",
     lines: ["THE", "AISLE"],
+    format: {
+      type: "sign",
+      pill: "AISLE 4",
+      main: "FEMININE CARE",
+      hand: "(also him, now)",
+    },
     caption: "POV: Papa's on aisle 4, out of his depth, and closer than he thinks 🛍️",
     likes: "61.3K",
     note: "Warmth over shock value, built for reach. This is the one the family group chat forwards without cringing.",
@@ -41,6 +67,15 @@ const posts = [
     type: "reel",
     variant: "c",
     lines: ["GROUP", "CHAT"],
+    format: {
+      type: "poll",
+      q: "WHO KNOWS?",
+      rows: [
+        { label: "bro 1", pct: 0 },
+        { label: "bro 2", pct: 0 },
+        { label: "bro 3", pct: 0 },
+      ],
+    },
     caption: "The bros were NOT ready for this confession thread 💬",
     likes: "88.9K",
     note: "Fast, deadpan, native meme pacing — built for the 18–24 male audience who'd never tap play on a 'period ad.'",
@@ -54,6 +89,12 @@ const posts = [
     type: "carousel",
     variant: "a",
     lines: ["TAG", "HIM"],
+    format: {
+      type: "blank",
+      lead: "TAG THE GUY WHO",
+      pre: "STILL THINKS",
+      blank: "______",
+    },
     caption: "Swipe, screenshot, send. You already know who needs this ➡️",
     likes: "15.6K",
     note: "The distribution plan is the format itself — women become the media buy, at zero extra spend.",
@@ -67,6 +108,11 @@ const posts = [
     type: "carousel",
     variant: "d",
     lines: ["EXPLAIN", "IT TO", "ME"],
+    format: {
+      type: "qa",
+      q: "what even is it",
+      a: "not “just cramps.”",
+    },
     caption:
       "No, it's not 'just cramps.' A quick one for the guys who never got the talk.",
     likes: "12.1K",
@@ -81,6 +127,10 @@ const posts = [
     type: "post",
     variant: "b",
     lines: ["SCAN.", "LEARN."],
+    format: {
+      type: "steps",
+      steps: ["SCAN", "LEARN", "SAY NOTHING"],
+    },
     caption: "Every pack now comes with a favour for him. Scan. Watch alone. No questions asked.",
     likes: "9.4K",
     note: "Removes the real barrier: most men won't ask. So the brand takes the asking off the table.",
@@ -94,6 +144,14 @@ const posts = [
     type: "post",
     variant: "c",
     lines: ["TIE ONE", "THAT", "COUNTS"],
+    format: {
+      type: "tag",
+      rows: [
+        { k: "TO", v: "HIM" },
+        { k: "FROM", v: "HER" },
+        { k: "CONTENTS", v: "ONE CLUE" },
+      ],
+    },
     caption: "This Rakhi, tie one thing that actually protects her: understanding.",
     likes: "33.7K",
     note: "Borrows a festival that already exists instead of inventing an awareness day — instant relevance, zero education cost.",
@@ -107,6 +165,12 @@ const posts = [
     type: "post",
     variant: "a",
     lines: ["NOT", "OVER", "IT"],
+    format: {
+      type: "quote",
+      text: "now i just KNOW.",
+      highlight: "KNOW.",
+      meta: "— a DM, 2:14 AM",
+    },
     caption:
       "'I didn't know until my sister sent me a reel. Now I just… know.' — a DM we're not over 🥹",
     likes: "21.0K",
@@ -121,6 +185,11 @@ const posts = [
     type: "post",
     variant: "d",
     lines: ["SOMETHING'S", "CHANGING"],
+    format: {
+      type: "redacted",
+      bars: 3,
+      word: "CHANGING.",
+    },
     caption: "Something's changing on this page. Not for the algorithm — for the group chat 👀",
     likes: "7.8K",
     note: "One beat of curiosity before the reveal — the only post in the sequence built to be seen before launch, not after.",
@@ -140,16 +209,164 @@ const highlightsData = [
   { icon: "🎀", label: "Rakhi" },
 ];
 
+const cloud = (cx: number, cy: number, s = 1, cls = "scene-cloud") => (
+  <g key={`c-${cx}-${cy}-${cls}`} transform={`translate(${cx} ${cy}) scale(${s})`}>
+    <ellipse className={cls} cx="-10" cy="0" rx="8" ry="6" />
+    <ellipse className={cls} cx="0" cy="-4" rx="11" ry="8" />
+    <ellipse className={cls} cx="11" cy="0" rx="8" ry="6" />
+    <rect className={cls} x="-16" y="-2" width="34" height="9" rx="4.5" />
+  </g>
+);
+
+const figure = (cx: number, cy: number, s = 1) => (
+  <g key={`f-${cx}-${cy}`} transform={`translate(${cx} ${cy}) scale(${s})`}>
+    {/* hair falling behind, past the shoulders */}
+    <path
+      className="scene-hair soft"
+      d="M-9 -3 C -13 6, -12 18, -6 26 L 6 26 C 12 18, 13 6, 9 -3 C 9 -3, 0 -9, -9 -3 Z"
+    />
+    {/* face */}
+    <circle className="scene-skin" cx="0" cy="-5" r="8.5" />
+    {/* bangs, arcing above the brow only */}
+    <path className="scene-hair" d="M-8 -8 C -5 -13, 5 -13, 8 -8 C 5 -10.5, -5 -10.5, -8 -8 Z" />
+    {/* side locks framing the cheeks */}
+    <path className="scene-hair" d="M-8.5 -8 C -10.5 -2, -9.5 6, -6.5 11 L -8.5 11 C -11.5 5, -11.5 -3, -9.5 -9.5 Z" />
+    <path className="scene-hair" d="M8.5 -8 C 10.5 -2, 9.5 6, 6.5 11 L 8.5 11 C 11.5 5, 11.5 -3, 9.5 -9.5 Z" />
+    {/* big eyes, looking up */}
+    <circle className="scene-eye" cx="-3.2" cy="-6.5" r="1.5" />
+    <circle className="scene-eye" cx="3.2" cy="-6.5" r="1.5" />
+  </g>
+);
+
+const rain = (xStart: number, xEnd: number, yTop: number, yBottom: number, count: number, cls = "scene-rain") => {
+  const arr = [];
+  for (let i = 0; i < count; i++) {
+    const x = xStart + (xEnd - xStart) * (i / (count - 1 || 1));
+    arr.push(<line key={`r-${cls}-${x}-${i}`} className={cls} x1={x} y1={yTop} x2={x - 1.5} y2={yBottom} />);
+  }
+  return arr;
+};
+
+const sceneFor = (index: number) => {
+  switch (index) {
+    case 0: // NOT HER JOB — two figures, sharing one cloud
+      return (
+        <>
+          {cloud(50, 22, 1.3)}
+          {rain(32, 68, 30, 66, 7)}
+          {figure(35, 90, 0.9)}
+          {figure(65, 90, 0.9)}
+        </>
+      );
+    case 1: // THE AISLE — shelves, one small cloud
+      return (
+        <>
+          {[55, 65, 75, 85].map((x, i) => (
+            <line key={`shelf-${i}`} className="scene-line" x1={x} y1="8" x2={x} y2="96" />
+          ))}
+          {cloud(30, 20, 0.8)}
+          {rain(25, 35, 28, 62, 4)}
+          {figure(30, 90, 0.85)}
+        </>
+      );
+    case 2: // GROUP CHAT — speech-bubble cloud, three small figures
+      return (
+        <>
+          {cloud(55, 22, 1.2)}
+          <path className="scene-cloud" d="M50 30 l6 9 l6 -7 z" />
+          {rain(35, 65, 34, 72, 6)}
+          {figure(25, 92, 0.55)}
+          {figure(50, 94, 0.6)}
+          {figure(75, 92, 0.55)}
+        </>
+      );
+    case 3: // TAG HIM — pointing arm, redirected rain
+      return (
+        <>
+          {cloud(42, 20, 1.05)}
+          {rain(20, 52, 30, 64, 5)}
+          <path className="scene-accent-line" d="M50 76 L74 58" />
+          <circle className="scene-dot" cx="76" cy="56" r="1.6" />
+          {figure(45, 90, 0.9)}
+        </>
+      );
+    case 4: // EXPLAIN IT TO ME — two figures, deliberate rain between
+      return (
+        <>
+          {cloud(50, 20, 0.85)}
+          {rain(45, 55, 28, 58, 3)}
+          {figure(32, 90, 0.8)}
+          {figure(68, 90, 0.8)}
+        </>
+      );
+    case 5: // SCAN. LEARN. — phone screen, rays instead of rain
+      return (
+        <>
+          <rect className="scene-line" x="44" y="55" width="12" height="19" rx="2" />
+          <path className="scene-accent-line" d="M46 54 L40 42" />
+          <path className="scene-accent-line" d="M50 52 L50 38" />
+          <path className="scene-accent-line" d="M54 54 L60 42" />
+          {figure(50, 88, 0.95)}
+        </>
+      );
+    case 6: // TIE ONE THAT COUNTS — thread between wrists
+      return (
+        <>
+          {cloud(30, 20, 0.75)}
+          {cloud(70, 20, 0.75)}
+          {rain(26, 34, 28, 50, 2)}
+          {rain(66, 74, 28, 50, 2)}
+          <path className="scene-accent-line" d="M40 78 Q50 66 60 78" />
+          {figure(35, 90, 0.85)}
+          {figure(65, 90, 0.85)}
+        </>
+      );
+    case 7: // NOT OVER IT — message-bubble cloud, tear-glint rain
+      return (
+        <>
+          {cloud(50, 22, 1.1)}
+          <path className="scene-cloud" d="M45 30 l5 9 l5 -8 z" />
+          {rain(40, 60, 34, 66, 4, "scene-rain accent")}
+          <circle className="scene-dot" cx="40" cy="66" r="1.3" />
+          <circle className="scene-dot" cx="60" cy="66" r="1.3" />
+          <path className="scene-line" d="M46 84 Q50 80 54 84" />
+          {figure(50, 90, 0.95)}
+        </>
+      );
+    case 8: // SOMETHING'S CHANGING — one solid cloud, one unfinished
+      return (
+        <>
+          {cloud(35, 20, 0.9)}
+          {cloud(65, 20, 0.9, "scene-cloud-outline")}
+          {rain(28, 42, 30, 58, 3)}
+          {figure(50, 90, 0.95)}
+        </>
+      );
+    default:
+      return null;
+  }
+};
+
+const SceneArt = ({ index }: { index: number }) => (
+  <svg className="decor-art" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    {sceneFor(index)}
+  </svg>
+);
+
+const BrandMark = ({ big = false }: { big?: boolean }) => (
+  <div className={`brandmark${big ? " brandmark-lg" : ""}`} aria-hidden="true">
+    <span className="bm-my">my</span>
+    <span className="bm-carmesi">CARMESI</span>
+  </div>
+);
+
 export default function Home() {
   const [activePost, setActivePost] = useState<(typeof posts)[0] | null>(null);
 
-  const reelIcon = `<svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>`;
-  const carouselIcon = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="7" y="7" width="14" height="14" rx="2.5"/><path d="M4 14V6a2 2 0 0 1 2-2h8"/></svg>`;
+  const reelIcon = `<svg width="15" height="15" viewBox="0 0 24 24" fill="#33424C"><path d="M8 5v14l11-7z"/></svg>`;
+  const carouselIcon = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#33424C" stroke-width="2"><rect x="7" y="7" width="14" height="14" rx="2.5"/><path d="M4 14V6a2 2 0 0 1 2-2h8"/></svg>`;
 
   const dropMark = (color: string, size = 14) => `<svg class="drop-mark" width="${size}" height="${size}" viewBox="0 0 24 24" fill="${color}"><path d="M12 2C12 2 5 12 5 16a7 7 0 0 0 14 0c0-4-7-14-7-14z"/></svg>`;
-
-  const dropColorFor = (variant: string) =>
-    variant === "a" || variant === "b" || variant === "d" ? "#fff" : "var(--crimson)";
 
   const avatarPalette = [
     "#C81E3A",
@@ -161,6 +378,108 @@ export default function Home() {
     "#6B5B3A",
   ];
   const avatarColor = (seed: number) => avatarPalette[seed % avatarPalette.length];
+
+  const renderHeadline = (post: (typeof posts)[0], big = false) => (
+    <span className={`lines pop-lines${big ? " pop-lg" : ""}`}>
+      {post.lines.map((l, j) => (
+        <div key={j}>{l}</div>
+      ))}
+    </span>
+  );
+
+  const renderFormatDetail = (post: (typeof posts)[0]) => {
+    const f = post.format;
+    if (!f) return null;
+    const cls = `fmt fmt-detail fmt-${f.type}`;
+    switch (f.type) {
+      case "strike":
+        return (
+          <div className={cls}>
+            {f.struck.map((s: string, i: number) => (
+              <div className="fmt-strike-line" key={i}>{s}</div>
+            ))}
+            <div className="fmt-strike-final">{f.final}</div>
+          </div>
+        );
+      case "sign":
+        return (
+          <div className={cls}>
+            <div className="fmt-pill">{f.pill}</div>
+            <div className="fmt-sign-main">{f.main}</div>
+            <div className="fmt-sign-note">{f.hand}</div>
+          </div>
+        );
+      case "poll":
+        return (
+          <div className={cls}>
+            <div className="fmt-poll-q">{f.q}</div>
+            {f.rows.map((r: { label: string; pct: number }, i: number) => (
+              <div className="fmt-poll-row" key={i}>
+                <span className="fmt-poll-label">{r.label}</span>
+                <span className="fmt-poll-bar"><i style={{ width: `${Math.max(r.pct, 4)}%` }} /></span>
+                <span className="fmt-poll-pct">{r.pct}%</span>
+              </div>
+            ))}
+          </div>
+        );
+      case "blank":
+        return (
+          <div className={cls}>
+            <div>{f.lead}</div>
+            <div>{f.pre} <span className="fmt-underline">{f.blank}</span></div>
+          </div>
+        );
+      case "qa":
+        return (
+          <div className={cls}>
+            <div className="fmt-qa-row"><b>Q:</b> {f.q}</div>
+            <div className="fmt-qa-row"><b>A:</b> {f.a}</div>
+          </div>
+        );
+      case "steps":
+        return (
+          <div className={cls}>
+            {f.steps.map((s: string, i: number) => (
+              <div className="fmt-step" key={i}>
+                <span className="fmt-step-num">{i + 1}</span>{s}
+              </div>
+            ))}
+          </div>
+        );
+      case "tag":
+        return (
+          <div className={cls}>
+            {f.rows.map((r: { k: string; v: string }, i: number) => (
+              <div className="fmt-tag-row" key={i}>
+                <span className="fmt-tag-k">{r.k}:</span> {r.v}
+              </div>
+            ))}
+          </div>
+        );
+      case "quote":
+        return (
+          <div className={cls}>
+            <div className="fmt-quote-text">
+              &ldquo;{f.text.replace(f.highlight, "")}<mark className="fmt-mark">{f.highlight}</mark>&rdquo;
+            </div>
+            <div className="fmt-quote-meta">{f.meta}</div>
+          </div>
+        );
+      case "redacted":
+        return (
+          <div className={cls}>
+            <div className="fmt-redacted-bars">
+              {Array.from({ length: f.bars }).map((_, i) => (
+                <span className="fmt-bar" key={i} />
+              ))}
+            </div>
+            <div className="fmt-redacted-word">…{f.word}</div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   useEffect(() => {
     // Keyboard navigation
@@ -193,6 +512,22 @@ export default function Home() {
           --font-display:'Bebas Neue', Impact, sans-serif;
           --font-body:'Inter', system-ui, -apple-system, sans-serif;
           --font-note:'Caveat', cursive;
+          --font-pop:var(--font-luckiest-guy), var(--font-display);
+
+          --maroon-1:#3B0A10;
+          --maroon-2:#4C0F16;
+          --maroon-3:#2A060B;
+          --gold:#F2C230;
+          --gold-soft:#E9B94A;
+          --outline-maroon:#5C1018;
+
+          --ill-bg-a:#DCE7EC;
+          --ill-bg-b:#D2E1E8;
+          --ill-bg-c:#E3EEF2;
+          --ill-bg-d:#CEDFE7;
+          --ill-line:#54697A;
+          --ill-ink:#33424C;
+          --ill-accent:#C81E3A;
         }
 
         .stage{
@@ -332,13 +667,147 @@ export default function Home() {
         .tile:focus-visible{outline:3px solid var(--gold); outline-offset:-3px; z-index:2;}
         .tile.active{outline:3px solid var(--gold); outline-offset:-3px; z-index:2;}
         .tile .lines div{font-size:clamp(13px,4vw,18px); line-height:0.92; letter-spacing:0.3px;}
-        .tile .icon-corner{position:absolute; top:8px; right:8px; opacity:.92;}
+        .tile .icon-corner{position:absolute; top:8px; left:8px; opacity:.92;}
         .tile .drop-mark{position:absolute; bottom:9px; right:9px; opacity:.9;}
 
-        .v-a{background:var(--crimson); color:#fff;}
-        .v-b{background:var(--brand-black); color:var(--crimson);}
-        .v-c{background:#fff; color:var(--crimson); box-shadow:inset 0 0 0 2px var(--crimson);}
-        .v-d{background:var(--brand-black); color:#fff; box-shadow:inset 0 0 0 2px var(--crimson);}
+        /* ---------- TEXT FORMAT TREATMENTS ---------- */
+        .fmt{font-family:var(--font-body); width:100%;}
+        .fmt-lg{font-size:1.5em;}
+
+        .fmt-strike-line{
+          font-size:clamp(10px,2.6vw,13px); text-decoration:line-through;
+          opacity:.55; letter-spacing:.5px; text-transform:uppercase;
+        }
+        .fmt-strike-final{
+          font-family:var(--font-display); font-size:clamp(16px,5vw,22px);
+          letter-spacing:.5px; margin-top:2px;
+        }
+        .fmt-lg .fmt-strike-line{font-size:15px;}
+        .fmt-lg .fmt-strike-final{font-size:30px;}
+
+        .fmt-pill{
+          display:inline-block; font-size:9px; font-weight:700; letter-spacing:1px;
+          border:1px solid currentColor; border-radius:20px; padding:2px 8px;
+          opacity:.85; margin-bottom:5px;
+        }
+        .fmt-sign-main{
+          font-family:var(--font-display); font-size:clamp(14px,4vw,18px);
+          letter-spacing:.5px; line-height:1;
+        }
+        .fmt-sign-note{
+          font-family:var(--font-note); font-size:clamp(12px,3vw,15px);
+          opacity:.85; margin-top:3px;
+        }
+        .fmt-lg .fmt-pill{font-size:11px; padding:3px 10px;}
+        .fmt-lg .fmt-sign-main{font-size:26px;}
+        .fmt-lg .fmt-sign-note{font-size:20px;}
+
+        .fmt-poll-q{
+          font-family:var(--font-display); font-size:clamp(12px,3.4vw,15px);
+          letter-spacing:.5px; margin-bottom:5px;
+        }
+        .fmt-poll-row{display:flex; align-items:center; gap:5px; margin-top:3px;}
+        .fmt-poll-label{font-size:8.5px; width:26px; flex-shrink:0; opacity:.8; text-transform:uppercase;}
+        .fmt-poll-bar{flex:1; height:4px; background:currentColor; opacity:.2; border-radius:3px; overflow:hidden; position:relative;}
+        .fmt-poll-bar i{position:absolute; left:0; top:0; bottom:0; background:currentColor; opacity:1; display:block;}
+        .fmt-poll-pct{font-size:8.5px; opacity:.7; width:22px; text-align:right; flex-shrink:0;}
+        .fmt-lg .fmt-poll-q{font-size:22px;}
+        .fmt-lg .fmt-poll-label, .fmt-lg .fmt-poll-pct{font-size:12px;}
+
+        .fmt-underline{text-decoration:underline; text-underline-offset:3px;}
+        .fmt-blank{font-family:var(--font-display); font-size:clamp(13px,3.6vw,17px); letter-spacing:.4px; line-height:1.1;}
+        .fmt-lg.fmt-blank{font-size:26px;}
+
+        .fmt-qa-row{
+          font-family:var(--font-body); font-size:clamp(10px,2.8vw,12.5px);
+          line-height:1.4; margin-top:3px;
+        }
+        .fmt-qa-row b{font-family:var(--font-display); margin-right:3px;}
+        .fmt-lg .fmt-qa-row{font-size:16px;}
+
+        .fmt-step{
+          display:flex; align-items:center; gap:6px;
+          font-family:var(--font-display); font-size:clamp(11px,3vw,14px);
+          letter-spacing:.4px; margin-top:2px;
+        }
+        .fmt-step-num{
+          display:inline-flex; align-items:center; justify-content:center;
+          width:15px; height:15px; border-radius:50%; border:1px solid currentColor;
+          font-size:8px; flex-shrink:0;
+        }
+        .fmt-lg .fmt-step{font-size:20px;}
+        .fmt-lg .fmt-step-num{width:22px; height:22px; font-size:11px;}
+
+        .fmt-tag{border:1px dashed currentColor; border-radius:4px; padding:8px 9px; opacity:.95;}
+        .fmt-tag-row{font-size:clamp(9px,2.4vw,11px); letter-spacing:.3px; margin-top:2px;}
+        .fmt-tag-k{font-weight:700; opacity:.7;}
+        .fmt-lg .fmt-tag{padding:14px 16px;}
+        .fmt-lg .fmt-tag-row{font-size:15px;}
+
+        .fmt-quote-text{
+          font-family:var(--font-note); font-size:clamp(14px,4vw,19px);
+          line-height:1.25;
+        }
+        .fmt-mark{background:transparent; color:inherit; text-decoration:underline wavy currentColor;}
+        .fmt-quote-meta{font-size:9px; opacity:.65; margin-top:4px;}
+        .fmt-lg .fmt-quote-text{font-size:26px;}
+        .fmt-lg .fmt-quote-meta{font-size:13px;}
+
+        .fmt-redacted-bars{display:flex; gap:4px; margin-bottom:6px;}
+        .fmt-bar{height:9px; flex:1; background:currentColor; opacity:.85; border-radius:2px;}
+        .fmt-redacted-word{
+          font-family:var(--font-display); font-size:clamp(13px,3.6vw,17px);
+          letter-spacing:.4px; opacity:.9;
+        }
+        .fmt-lg .fmt-bar{height:14px;}
+        .fmt-lg .fmt-redacted-word{font-size:26px;}
+
+        .v-a, .v-b, .v-c, .v-d{color:var(--ill-ink); box-shadow:inset 0 0 0 1px rgba(51,66,76,0.1);}
+        .v-a{background:linear-gradient(160deg, var(--ill-bg-c), var(--ill-bg-a) 70%);}
+        .v-b{background:linear-gradient(160deg, var(--ill-bg-a), var(--ill-bg-b) 70%);}
+        .v-c{background:linear-gradient(160deg, var(--ill-bg-c), var(--ill-bg-d) 70%);}
+        .v-d{background:linear-gradient(160deg, var(--ill-bg-b), var(--ill-bg-d) 70%);}
+
+        /* ---------- POP HEADLINE + SCENE ART + WORDMARK ---------- */
+        .pop-lines{position:relative; z-index:2;}
+        .pop-lines div{
+          font-family:var(--font-pop);
+          color:var(--ill-accent);
+          -webkit-text-stroke:0.6px var(--ill-ink);
+          text-shadow:1.5px 1.5px 0 rgba(255,255,255,0.7);
+          line-height:0.92;
+          letter-spacing:.3px;
+        }
+        .pop-lg div{font-size:clamp(30px,7.5vw,44px) !important;}
+
+        .decor-art{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0;}
+        .scene-cloud{fill:var(--ill-line); opacity:.5;}
+        .scene-cloud.solid-accent{fill:var(--ill-accent); opacity:.35;}
+        .scene-cloud-outline{fill:none; stroke:var(--ill-line); stroke-width:1; stroke-dasharray:2.5 2.2; opacity:.55;}
+        .scene-rain{stroke:var(--ill-line); stroke-width:1; opacity:.5; stroke-linecap:round;}
+        .scene-rain.accent{stroke:var(--ill-accent); opacity:.6;}
+        .scene-hair{fill:var(--ill-ink); opacity:.85;}
+        .scene-hair.soft{opacity:.55;}
+        .scene-skin{fill:var(--ill-bg-a); opacity:.9; stroke:var(--ill-ink); stroke-width:.6;}
+        .scene-eye{fill:var(--ill-ink);}
+        .scene-line{stroke:var(--ill-line); stroke-width:.8; opacity:.45; fill:none;}
+        .scene-accent-line{stroke:var(--ill-accent); stroke-width:1.1; opacity:.7; fill:none; stroke-linecap:round;}
+        .scene-dot{fill:var(--ill-accent); opacity:.6;}
+
+        .brandmark{
+          position:absolute; top:8px; right:9px; text-align:right;
+          z-index:1; opacity:.5; pointer-events:none; line-height:1;
+        }
+        .bm-my{display:block; font-family:var(--font-note); font-size:10px; color:var(--ill-accent);}
+        .bm-carmesi{display:block; font-family:var(--font-body); font-weight:700; font-size:8.5px; letter-spacing:1.6px; color:var(--ill-ink); margin-top:1px;}
+        .brandmark-lg{top:14px; right:16px;}
+        .brandmark-lg .bm-my{font-size:16px;}
+        .brandmark-lg .bm-carmesi{font-size:13px; letter-spacing:2.2px;}
+
+        .fmt-detail{
+          position:relative; z-index:2; margin-top:10px;
+          color:var(--ill-ink); opacity:.9;
+        }
 
         @keyframes tileIn{
           from{opacity:0; transform:translateY(8px) scale(0.98);}
@@ -430,7 +899,8 @@ export default function Home() {
         .post-art.is-post{aspect-ratio:1/1;}
         .post-art.is-reel{aspect-ratio:4/5;}
         .post-art .lines div{font-size:clamp(22px,7vw,32px); line-height:0.92;}
-        .post-art .icon-corner{position:absolute; top:14px; right:14px;}
+        .post-art .icon-corner{position:absolute; top:14px; left:14px;}
+        .post-art-body{position:relative; z-index:2;}
         .post-art .drop-mark{position:absolute; bottom:14px; right:14px; opacity:.9;}
 
         .post-actions{display:flex; align-items:center; gap:14px; padding:12px 16px 2px; color:var(--ink);}
@@ -601,20 +1071,18 @@ export default function Home() {
                           onClick={() => setActivePost(p)}
                           aria-label={p.lines.join(" ") + " — open post"}
                         >
+                          <SceneArt index={i} />
+                          <BrandMark />
                           <span
                             className="icon-corner"
                             dangerouslySetInnerHTML={{
                               __html: p.type === "reel" ? reelIcon : p.type === "carousel" ? carouselIcon : ""
                             }}
                           />
-                          <span className="lines">
-                            {p.lines.map((l, j) => (
-                              <div key={j}>{l}</div>
-                            ))}
-                          </span>
+                          {renderHeadline(p)}
                           <div
                             dangerouslySetInnerHTML={{
-                              __html: dropMark(dropColorFor(p.variant)),
+                              __html: dropMark("var(--ill-accent)"),
                             }}
                           />
                         </button>
@@ -657,20 +1125,21 @@ export default function Home() {
                     </div>
 
                     <div className={`post-art v-${activePost.variant} ${activePost.type === "reel" ? "is-reel" : "is-post"}`}>
+                      <SceneArt index={posts.indexOf(activePost)} />
+                      <BrandMark big />
                       <span
                         className="icon-corner"
                         dangerouslySetInnerHTML={{
                           __html: activePost.type === "reel" ? reelIcon : activePost.type === "carousel" ? carouselIcon : ""
                         }}
                       />
-                      <span className="lines">
-                        {activePost.lines.map((l, i) => (
-                          <div key={i}>{l}</div>
-                        ))}
-                      </span>
+                      <div className="post-art-body">
+                        {renderHeadline(activePost, true)}
+                        {renderFormatDetail(activePost)}
+                      </div>
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: dropMark(dropColorFor(activePost.variant), 20),
+                          __html: dropMark("var(--ill-accent)", 20),
                         }}
                       />
                     </div>

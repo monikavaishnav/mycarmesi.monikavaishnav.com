@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Caveat, Inter } from "next/font/google";
+import { Bebas_Neue, Caveat, Inter, Luckiest_Guy } from "next/font/google";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-bebas-neue",
+  display: "swap",
+});
+
+const luckiestGuy = Luckiest_Guy({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-luckiest-guy",
   display: "swap",
 });
 
@@ -40,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${bebasNeue.variable} ${caveat.variable} ${inter.variable}`}>
+    <html lang="en" className={`${bebasNeue.variable} ${caveat.variable} ${inter.variable} ${luckiestGuy.variable}`}>
       <body>
         <header className="siteBar">
           <a href="https://monikavaishnav.com/" className="siteBarBack">← monikavaishnav.com</a>
