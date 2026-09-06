@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Comment = { u: string; t: string; reply?: boolean };
 
@@ -362,6 +362,21 @@ const BrandMark = ({ big = false }: { big?: boolean }) => (
 
 export default function Home() {
   const [activePost, setActivePost] = useState<(typeof posts)[0] | null>(null);
+  const [likedPosts, setLikedPosts] = useState<Set<Post>>(new Set());
+  const [savedPosts, setSavedPosts] = useState<Set<Post>>(new Set());
+  const [likedOfficial, setLikedOfficial] = useState<Set<Post>>(new Set());
+  const [likedComments, setLikedComments] = useState<Set<Comment>>(new Set());
+  const [shareToast, setShareToast] = useState(false);
+  const commentsRef = useRef<HTMLDivElement | null>(null);
+
+  const toggleInSet = <T,>(setFn: React.Dispatch<React.SetStateAction<Set<T>>>, item: T) => {
+    setFn((prev) => {
+      const next = new Set(prev);
+      if (next.has(item)) next.delete(item);
+      else next.add(item);
+      return next;
+    });
+  };
 
   const reelIcon = `<svg width="15" height="15" viewBox="0 0 24 24" fill="#33424C"><path d="M8 5v14l11-7z"/></svg>`;
   const carouselIcon = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#33424C" stroke-width="2"><rect x="7" y="7" width="14" height="14" rx="2.5"/><path d="M4 14V6a2 2 0 0 1 2-2h8"/></svg>`;
@@ -907,7 +922,27 @@ export default function Home() {
         .post-actions svg{width:21px; height:21px;}
         .post-actions .spacer{flex:1;}
 
+        .icon-btn{
+          background:none; border:none; padding:0; margin:0;
+          display:inline-flex; color:inherit; cursor:pointer;
+          -webkit-tap-highlight-color:transparent;
+        }
+        .icon-btn svg{transition:transform .15s ease;}
+        .icon-btn:active svg{transform:scale(0.8);}
+        .icon-btn.liked svg, .icon-btn.saved svg{animation:iconPop .3s ease;}
+        @keyframes iconPop{0%{transform:scale(1);} 35%{transform:scale(1.28);} 65%{transform:scale(0.92);} 100%{transform:scale(1);}}
+
+        .share-wrap{position:relative; display:inline-flex;}
+        .share-toast{
+          position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+          background:var(--ink); color:#fff; font-size:9.5px; font-weight:600;
+          padding:4px 9px; border-radius:6px; white-space:nowrap;
+          animation:toastIn .18s ease; pointer-events:none;
+        }
+        @keyframes toastIn{ from{opacity:0; transform:translate(-50%,4px);} to{opacity:1; transform:translate(-50%,0);} }
+
         .post-likes{padding:8px 16px 0; font-size:12.5px; font-weight:700;}
+        .you-liked{color:var(--crimson); font-weight:600;}
         .post-caption{padding:5px 16px 4px; font-size:12.5px; line-height:1.5;}
         .post-caption b{font-weight:700; margin-right:5px;}
 
@@ -928,7 +963,14 @@ export default function Home() {
         .comment.official{background:rgba(200,30,58,0.05); margin:2px -16px; padding:8px 16px; border-radius:8px;}
         .comment.official .c-body b{color:var(--crimson);}
         .comment.official .c-body b::after{content:" ✓"; font-size:9px; color:var(--crimson);}
-        .c-heart{opacity:.3; flex-shrink:0; margin-top:3px;}
+        .c-heart-btn{
+          background:none; border:none; padding:0; margin-top:3px;
+          flex-shrink:0; display:inline-flex; cursor:pointer; color:inherit;
+          -webkit-tap-highlight-color:transparent;
+        }
+        .c-heart{opacity:.3; flex-shrink:0; transition:opacity .15s ease;}
+        .c-heart-btn.liked .c-heart{opacity:1; animation:iconPop .3s ease;}
+        .c-heart-btn:active .c-heart{transform:scale(0.8);}
         @keyframes commentIn{ to{opacity:1; transform:translateY(0);} }
 
         .typing-row{
@@ -1145,28 +1187,77 @@ export default function Home() {
                     </div>
 
                     <div className="post-actions">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                        <path d="M12 21s-7-4.4-9.5-9C.8 8 3 4.5 6.7 4.5c2 0 3.6 1 5.3 2.8 1.7-1.8 3.3-2.8 5.3-2.8C21 4.5 23.2 8 21.5 12 19 16.6 12 21 12 21z" />
-                      </svg>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                        <path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 9 9 0 0 1-3.6-.8L3 20l1-5.2a8.4 8.4 0 0 1-.8-3.6A8.4 8.4 0 0 1 11.6 3a8.5 8.5 0 0 1 9.4 8.5z" />
-                      </svg>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                        <path d="M22 2L11 13" />
-                        <path d="M22 2l-7 20-4-9-9-4 20-7z" />
-                      </svg>
+                      <button
+                        type="button"
+                        className={`icon-btn${likedPosts.has(activePost) ? " liked" : ""}`}
+                        aria-pressed={likedPosts.has(activePost)}
+                        aria-label={likedPosts.has(activePost) ? "Unlike" : "Like"}
+                        onClick={() => toggleInSet(setLikedPosts, activePost)}
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill={likedPosts.has(activePost) ? "var(--crimson)" : "none"}
+                          stroke={likedPosts.has(activePost) ? "var(--crimson)" : "currentColor"}
+                          strokeWidth="1.8"
+                        >
+                          <path d="M12 21s-7-4.4-9.5-9C.8 8 3 4.5 6.7 4.5c2 0 3.6 1 5.3 2.8 1.7-1.8 3.3-2.8 5.3-2.8C21 4.5 23.2 8 21.5 12 19 16.6 12 21 12 21z" />
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        className="icon-btn"
+                        aria-label="View comments"
+                        onClick={() => commentsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                      >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                          <path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 9 9 0 0 1-3.6-.8L3 20l1-5.2a8.4 8.4 0 0 1-.8-3.6A8.4 8.4 0 0 1 11.6 3a8.5 8.5 0 0 1 9.4 8.5z" />
+                        </svg>
+                      </button>
+                      <span className="share-wrap">
+                        <button
+                          type="button"
+                          className="icon-btn"
+                          aria-label="Share"
+                          onClick={() => {
+                            setShareToast(true);
+                            window.setTimeout(() => setShareToast(false), 1400);
+                          }}
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                            <path d="M22 2L11 13" />
+                            <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+                          </svg>
+                        </button>
+                        {shareToast && <span className="share-toast">Link copied</span>}
+                      </span>
                       <span className="spacer" />
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-                      </svg>
+                      <button
+                        type="button"
+                        className={`icon-btn${savedPosts.has(activePost) ? " saved" : ""}`}
+                        aria-pressed={savedPosts.has(activePost)}
+                        aria-label={savedPosts.has(activePost) ? "Unsave" : "Save"}
+                        onClick={() => toggleInSet(setSavedPosts, activePost)}
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill={savedPosts.has(activePost) ? "var(--ink)" : "none"}
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                        >
+                          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                        </svg>
+                      </button>
                     </div>
 
-                    <div className="post-likes">{activePost.likes} likes</div>
+                    <div className="post-likes">
+                      {activePost.likes} likes
+                      {likedPosts.has(activePost) && <span className="you-liked"> · liked by you</span>}
+                    </div>
                     <div className="post-caption">
                       <b>mycarmesi</b>
                       {activePost.caption}
                     </div>
-                    <div className="post-comments">
+                    <div className="post-comments" ref={commentsRef}>
                       {activePost.comments.map((c, i) => (
                         <div key={i} className={`comment ${c.reply ? "reply" : ""}`}>
                           <div
@@ -1179,17 +1270,25 @@ export default function Home() {
                             <b>{c.u}</b>
                             {c.t}
                           </div>
-                          <svg
-                            className="c-heart"
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
+                          <button
+                            type="button"
+                            className={`c-heart-btn${likedComments.has(c) ? " liked" : ""}`}
+                            aria-pressed={likedComments.has(c)}
+                            aria-label={likedComments.has(c) ? "Unlike comment" : "Like comment"}
+                            onClick={() => toggleInSet(setLikedComments, c)}
                           >
-                            <path d="M12 21s-7-4.4-9.5-9C.8 8 3 4.5 6.7 4.5c2 0 3.6 1 5.3 2.8 1.7-1.8 3.3-2.8 5.3-2.8C21 4.5 23.2 8 21.5 12 19 16.6 12 21 12 21z" />
-                          </svg>
+                            <svg
+                              className="c-heart"
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill={likedComments.has(c) ? "var(--crimson)" : "none"}
+                              stroke={likedComments.has(c) ? "var(--crimson)" : "currentColor"}
+                              strokeWidth="2"
+                            >
+                              <path d="M12 21s-7-4.4-9.5-9C.8 8 3 4.5 6.7 4.5c2 0 3.6 1 5.3 2.8 1.7-1.8 3.3-2.8 5.3-2.8C21 4.5 23.2 8 21.5 12 19 16.6 12 21 12 21z" />
+                            </svg>
+                          </button>
                         </div>
                       ))}
                       {activePost.official && (
@@ -1201,17 +1300,25 @@ export default function Home() {
                             <b>mycarmesi</b>
                             {activePost.official}
                           </div>
-                          <svg
-                            className="c-heart"
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
+                          <button
+                            type="button"
+                            className={`c-heart-btn${likedOfficial.has(activePost) ? " liked" : ""}`}
+                            aria-pressed={likedOfficial.has(activePost)}
+                            aria-label={likedOfficial.has(activePost) ? "Unlike comment" : "Like comment"}
+                            onClick={() => toggleInSet(setLikedOfficial, activePost)}
                           >
-                            <path d="M12 21s-7-4.4-9.5-9C.8 8 3 4.5 6.7 4.5c2 0 3.6 1 5.3 2.8 1.7-1.8 3.3-2.8 5.3-2.8C21 4.5 23.2 8 21.5 12 19 16.6 12 21 12 21z" />
-                          </svg>
+                            <svg
+                              className="c-heart"
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill={likedOfficial.has(activePost) ? "var(--crimson)" : "none"}
+                              stroke={likedOfficial.has(activePost) ? "var(--crimson)" : "currentColor"}
+                              strokeWidth="2"
+                            >
+                              <path d="M12 21s-7-4.4-9.5-9C.8 8 3 4.5 6.7 4.5c2 0 3.6 1 5.3 2.8 1.7-1.8 3.3-2.8 5.3-2.8C21 4.5 23.2 8 21.5 12 19 16.6 12 21 12 21z" />
+                            </svg>
+                          </button>
                         </div>
                       )}
                     </div>
