@@ -10,6 +10,7 @@ type Post = {
   lines: string[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   format?: any;
+  art?: string;
   caption: string;
   likes: string;
   note: string;
@@ -27,6 +28,7 @@ const posts: Post[] = [
       struck: ["HER JOB", "HER JOB"],
       final: "OUR JOB",
     },
+    art: "/art/2.jpeg",
     caption:
       "Some things shouldn't be a woman's job alone. Starting today, we're talking to someone new. 🧵",
     likes: "24.8K",
@@ -76,6 +78,7 @@ const posts: Post[] = [
         { label: "bro 3", pct: 0 },
       ],
     },
+    art: "/art/1.jpeg",
     caption: "The bros were NOT ready for this confession thread 💬",
     likes: "88.9K",
     note: "Fast, deadpan, native meme pacing — built for the 18–24 male audience who'd never tap play on a 'period ad.'",
@@ -113,6 +116,7 @@ const posts: Post[] = [
       q: "what even is it",
       a: "not “just cramps.”",
     },
+    art: "/art/7.jpeg",
     caption:
       "No, it's not 'just cramps.' A quick one for the guys who never got the talk.",
     likes: "12.1K",
@@ -131,6 +135,7 @@ const posts: Post[] = [
       type: "steps",
       steps: ["SCAN", "LEARN", "SAY NOTHING"],
     },
+    art: "/art/6.jpeg",
     caption: "Every pack now comes with a favour for him. Scan. Watch alone. No questions asked.",
     likes: "9.4K",
     note: "Removes the real barrier: most men won't ask. So the brand takes the asking off the table.",
@@ -152,6 +157,7 @@ const posts: Post[] = [
         { k: "CONTENTS", v: "ONE CLUE" },
       ],
     },
+    art: "/art/5.jpeg",
     caption: "This Rakhi, tie one thing that actually protects her: understanding.",
     likes: "33.7K",
     note: "Borrows a festival that already exists instead of inventing an awareness day — instant relevance, zero education cost.",
@@ -171,6 +177,7 @@ const posts: Post[] = [
       highlight: "KNOW.",
       meta: "— a DM, 2:14 AM",
     },
+    art: "/art/3.jpeg",
     caption:
       "'I didn't know until my sister sent me a reel. Now I just… know.' — a DM we're not over 🥹",
     likes: "21.0K",
@@ -190,6 +197,7 @@ const posts: Post[] = [
       bars: 3,
       word: "CHANGING.",
     },
+    art: "/art/4.jpeg",
     caption: "Something's changing on this page. Not for the algorithm — for the group chat 👀",
     likes: "7.8K",
     note: "One beat of curiosity before the reveal — the only post in the sequence built to be seen before launch, not after.",
@@ -796,6 +804,17 @@ export default function Home() {
         .pop-lg div{font-size:clamp(30px,7.5vw,44px) !important;}
 
         .decor-art{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0;}
+        img.decor-art.tile-photo{object-fit:cover;}
+        .art-overlay{
+          position:absolute; inset:0; z-index:0; pointer-events:none;
+          background:linear-gradient(to top, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.2) 42%, rgba(0,0,0,0) 68%);
+        }
+        .tile.has-art .bm-my, .post-art.has-art .bm-my{color:#fff;}
+        .tile.has-art .bm-carmesi, .post-art.has-art .bm-carmesi{color:#fff; opacity:.85;}
+        .post-art.has-art .fmt-detail{color:#fff;}
+        .tile.has-art .pop-lines div, .post-art.has-art .pop-lines div{
+          text-shadow:0 2px 8px rgba(0,0,0,0.6), 0 0 2px rgba(0,0,0,0.4);
+        }
         .scene-cloud{fill:var(--ill-line); opacity:.5;}
         .scene-cloud.solid-accent{fill:var(--ill-accent); opacity:.35;}
         .scene-cloud-outline{fill:none; stroke:var(--ill-line); stroke-width:1; stroke-dasharray:2.5 2.2; opacity:.55;}
@@ -1109,11 +1128,16 @@ export default function Home() {
                       {posts.map((p, i) => (
                         <button
                           key={i}
-                          className={`tile v-${p.variant}`}
+                          className={`tile v-${p.variant}${p.art ? " has-art" : ""}`}
                           onClick={() => setActivePost(p)}
                           aria-label={p.lines.join(" ") + " — open post"}
                         >
-                          <SceneArt index={i} />
+                          {p.art ? (
+                            <img src={p.art} alt="" className="decor-art tile-photo" />
+                          ) : (
+                            <SceneArt index={i} />
+                          )}
+                          {p.art && <div className="art-overlay" />}
                           <BrandMark />
                           <span
                             className="icon-corner"
@@ -1166,8 +1190,15 @@ export default function Home() {
                       <div className="more">⋯</div>
                     </div>
 
-                    <div className={`post-art v-${activePost.variant} ${activePost.type === "reel" ? "is-reel" : "is-post"}`}>
-                      <SceneArt index={posts.indexOf(activePost)} />
+                    <div
+                      className={`post-art v-${activePost.variant} ${activePost.type === "reel" ? "is-reel" : "is-post"}${activePost.art ? " has-art" : ""}`}
+                    >
+                      {activePost.art ? (
+                        <img src={activePost.art} alt="" className="decor-art tile-photo" />
+                      ) : (
+                        <SceneArt index={posts.indexOf(activePost)} />
+                      )}
+                      {activePost.art && <div className="art-overlay" />}
                       <BrandMark big />
                       <span
                         className="icon-corner"
